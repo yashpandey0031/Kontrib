@@ -1,19 +1,34 @@
 #test script for checking if it is actually calling the API 
 
 import asyncio
+import json
 from github_client import get_user, get_user_commits, get_top_contributors
+from analyzer import analyze_commits
+
+
 
 async def main():
-  user = await get_user("yashpandey0031")
-  print(user["name"], user["public_repos"])
+  # user = await get_user("yashpandey0031")
+  # print(user["name"], user["public_repos"])
   
+  top = await get_top_contributors("microsoft/vscode",limit = 3)
+  print([c['login'] for c in top])
 
-  #test fetching commits
-  commits = await get_user_commits("yashpandey0031","yashpandey0031/coral-reefs-nlp")
+  #test fetching commits, from the top of vs code commitor
+  commits = await get_user_commits(top[0]['login'], "microsoft/vscode")
   print(f"Your commits in this reop: {len(commits)}")
 
-  #test fetching the top contributors
+  #test fetching the top contributors, from a main repo 
   top = await get_top_contributors("facebook/react", limit=3)
   print(f"Top contributors: {[c['login'] for c in top]}")
 
+  #anayze commits
+  result = analyze_commits(commits)
+  print(result)
+
+  # commits = await get_user_commits("torvalds", "torvalds/linux")
+  # print(json.dumps(commits[0], indent=2)) #print everything related to that dude here 
+
 asyncio.run(main())
+
+
