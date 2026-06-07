@@ -2,8 +2,8 @@
 
 import asyncio
 import json
-from github_client import get_user, get_user_commits, get_top_contributors
-from analyzer import analyze_commits, compare
+from github_client import get_user, get_user_commits, get_top_contributors,get_user_prs
+from analyzer import analyze_commits, extract_commit_messages
 
 
 
@@ -25,8 +25,11 @@ async def main():
   your_result = analyze_commits(your_commits)
   print(your_result)
 
-  comparison = compare(your_result,bench_result)
-  print(json.dumps(comparison,indent=2))
+  messages = extract_commit_messages(your_commits)
+  print(messages)
+
+  # comparison = compare(your_result,bench_result)
+  # print(json.dumps(comparison,indent=2))
 
   
 

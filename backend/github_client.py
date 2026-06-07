@@ -46,3 +46,20 @@ async def get_top_contributors(repo:  str, limit: int = 5)-> list:
     response.raise_for_status()
     return response.json()
   
+async def get_user_prs(username: str, repo: str) -> list:
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        response = await client.get(
+            f"{BASE_URL}/repos/{repo}/pulls",
+            headers=headers,
+            params={
+                "state": "closed",
+                "per_page": 20
+            }
+        )
+        if response.status_code in [500, 422]:
+            return []
+        response.raise_for_status()
+        # filter only PRs by this user
+        prs = response.json()
+        return [pr for pr in prs if pr["user"]["login"] == username]
+  

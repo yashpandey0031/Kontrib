@@ -49,7 +49,11 @@ def compare(user_mertrics: dict, benchmark_metrics: dict) -> dict:
   return results
 
 
+def extract_commit_messages(commits: list) -> list:
+    return [c["commit"]["message"] for c in commits]
 
+def extract_pr_descriptions(prs: list) -> list:
+    return [pr["body"] for pr in prs if pr["body"]]
 
 
 
