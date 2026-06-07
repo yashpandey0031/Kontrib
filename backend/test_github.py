@@ -17,12 +17,14 @@ async def main():
   #test fetching commits, from the top of vs code commitor
   commits = await get_user_commits(top[0]['login'], "microsoft/vscode")
   print(f"Top contributors: {[c['login'] for c in top]}")
-  result = analyze_commits(commits)
-  print(result)
+  bench_result = analyze_commits(commits)
+  print(bench_result)
 
   your_commits = await get_user_commits("yashpandey0031", "yashpandey0031/coral-reefs-nlp")
   your_result = analyze_commits(your_commits)
   print(your_result)
+
+  
   
 
   #test fetching the top contributors, from a main repo 

@@ -23,3 +23,34 @@ def analyze_commits(commits: list) -> dict:
     "conventional_commit_Rate" : round(conventional_commit_rate,2),
     "multiline_Rate" : round(rate_miltline,2),
   }
+
+
+def comapre(user_mertrics: dict, benchmark_metrics: dict) -> dict:
+  results = {}
+
+  for metric in user_mertrics:
+    user_val = user_mertrics[metric]
+    bench_val = benchmark_metrics[metric]
+    gap = bench_val - user_val
+
+    if user_val >= bench_val * 0.8:
+      rating = "good"
+    elif user_val >= bench_val * 0.5:
+      rating = "needs improvement"
+    else:
+      rating = "below benchmark"
+
+    results[metric]= {
+      "your_value": user_val,
+      "benchamark_value":bench_val,
+      "gap":round(gap,2),
+      "rating":rating
+    }
+  return results
+
+
+
+
+
+
+  
