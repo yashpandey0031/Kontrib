@@ -21,6 +21,11 @@ async def analyze(request: AnalysisRequest):
   
   #fetch user commits in target repo
   user_commits = await get_user_commits(request.username,request.user_repo)
+  if not user_commits:
+    raise HTTPException(
+        status_code=404, 
+        detail=f"No commits found for {request.username} in {request.user_repo}. Make sure the repo belongs to this user." #if no commits found for that user in that repo 
+    )
 
   #fetch top contributor commits as benchmark
   top = await get_top_contributors(request.benchmark_repo, limit =1)
