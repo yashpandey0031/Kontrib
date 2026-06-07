@@ -3,7 +3,7 @@
 import asyncio
 import json
 from github_client import get_user, get_user_commits, get_top_contributors
-from analyzer import analyze_commits
+from analyzer import analyze_commits, compare
 
 
 
@@ -20,11 +20,14 @@ async def main():
   bench_result = analyze_commits(commits)
   print(bench_result)
 
+  #fetch your own commits for comparing against the above top benchmark values
   your_commits = await get_user_commits("yashpandey0031", "yashpandey0031/coral-reefs-nlp")
   your_result = analyze_commits(your_commits)
   print(your_result)
 
-  
+  comparison = compare(your_result,bench_result)
+  print(json.dumps(comparison,indent=2))
+
   
 
   #test fetching the top contributors, from a main repo 

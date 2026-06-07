@@ -25,19 +25,19 @@ def analyze_commits(commits: list) -> dict:
   }
 
 
-def comapre(user_mertrics: dict, benchmark_metrics: dict) -> dict:
+def compare(user_mertrics: dict, benchmark_metrics: dict) -> dict:
   results = {}
 
   for metric in user_mertrics:
-    user_val = user_mertrics[metric]
+    user_val = user_mertrics[metric] #metric for that user and that metric while looping through user metric
     bench_val = benchmark_metrics[metric]
     gap = bench_val - user_val
 
-    if user_val >= bench_val * 0.8:
+    if user_val >= bench_val * 0.8: #if you are within in 80% thats good
       rating = "good"
-    elif user_val >= bench_val * 0.5:
+    elif user_val >= bench_val * 0.5: #if you are within between 50-80% thats fine
       rating = "needs improvement"
-    else:
+    else: #if you are significantly behind the behcnmark
       rating = "below benchmark"
 
     results[metric]= {
