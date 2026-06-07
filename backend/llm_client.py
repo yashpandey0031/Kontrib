@@ -15,28 +15,26 @@ def analyze_with_llm(
     metrics_comparison: dict,
 ) -> str:
   
-  prompt = f""" 
-you are a code contribution analyst , compare two developers' commit message styles.
+  prompt = f"""
+You are a code contribution analyst. Analyze {username}'s commit style and compare it to {benchmark_username}.
 
-Developer being analyzed: {username}
-Their commit messages (sample):
+{username}'s actual commit messages:
 {chr(10).join(f'- {m[:100]}' for m in user_messages[:10])}
 
-Benchmark developer: {benchmark_messages}
-Their commit messages (sample):
+{benchmark_username}'s commit messages (benchmark):
 {chr(10).join(f'- {m[:100]}' for m in benchmark_messages[:10])}
 
-Metrics comaprison:
-- Average message length: {username} wrote {metrics_comparison['avg_message_length']['your_value']} chars vs {metrics_comparison['avg_message_length']['benchmark_value']} chars
-- Conventional commit rate: {metrics_comparison['conventional_commit_rate']['your_value']} vs {metrics_comparison['conventional_commit_rate']['benchmark_value']}
-- Multiline rate: {metrics_comparison['multiline_rate']['your_value']} vs {metrics_comparison['multiline_rate']['benchmark_value']}
+Metrics:
+- Avg message length: {username} = {metrics_comparison['avg_message_length']['your_value']} chars, {benchmark_username} = {metrics_comparison['avg_message_length']['benchmark_value']} chars
+- Conventional commit rate: {username} = {metrics_comparison['conventional_commit_rate']['your_value']}, {benchmark_username} = {metrics_comparison['conventional_commit_rate']['benchmark_value']}
+- Multiline rate: {username} = {metrics_comparison['multiline_rate']['your_value']}, {benchmark_username} = {metrics_comparison['multiline_rate']['benchmark_value']}
 
-Provide:
-1. A brief honest assessment of {username}'s commit style (2-3 sentences)
-2. Three specific improvements they should make with examples
-3. One thing they are doing well
+Based ONLY on {username}'s messages above, provide:
+1. Honest assessment of {username}'s commit style (2-3 sentences)
+2. Three specific improvements with examples from {username}'s ACTUAL messages
+3. One thing {username} is doing well
 
-Keep it concise, specific, and actionable. No fluff.
+Be specific. Only reference {username}'s messages in examples, not {benchmark_username}'s.
 """
   
   response  =client.chat.completions.create(model = MODEL,messages= [{"role":"user","content":prompt}])
