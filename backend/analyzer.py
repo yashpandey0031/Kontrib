@@ -18,10 +18,10 @@ def analyze_commits(commits: list) -> dict:
   rate_miltline = multiline / len(messages)
 
   return {
-    "total_Commits" : total_commits,
+    "total_commits" : total_commits,
     "avg_message_length" : round(avg_message_length,2),
-    "conventional_commit_Rate" : round(conventional_commit_rate,2),
-    "multiline_Rate" : round(rate_miltline,2),
+    "conventional_commit_rate" : round(conventional_commit_rate,2),
+    "multiline_rate" : round(rate_miltline,2),
   }
 
 
@@ -42,7 +42,7 @@ def compare(user_mertrics: dict, benchmark_metrics: dict) -> dict:
 
     results[metric]= {
       "your_value": user_val,
-      "benchamark_value":bench_val,
+      "benchmark_value":bench_val,
       "gap":round(gap,2),
       "rating":rating
     }
