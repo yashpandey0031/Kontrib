@@ -2,6 +2,7 @@ import asyncio
 import json
 from github_client import get_user, get_user_commits, get_top_contributors
 
+
 def analyze_commits(commits: list) -> dict:
   messages=[c["commit"]["message"] for c in commits]
 

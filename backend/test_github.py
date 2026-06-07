@@ -4,6 +4,8 @@ import asyncio
 import json
 from github_client import get_user, get_user_commits, get_top_contributors,get_user_prs
 from analyzer import analyze_commits, extract_commit_messages
+from llm_client import analyze_with_llm
+from analyzer import extract_commit_messages,compare
 
 
 
@@ -28,7 +30,21 @@ async def main():
   messages = extract_commit_messages(your_commits)
   print(messages)
 
-  # comparison = compare(your_result,bench_result)
+  benchmark_messages = extract_commit_messages(commits)
+  comparison = compare(your_result,bench_result)
+  
+
+  result = analyze_with_llm(
+    username="yashpandey0031",
+    user_messages=messages,
+    benchmark_username=top[0]['login'],
+    benchmark_messages=benchmark_messages,
+    metrics_comparison=comparison
+    )   
+  
+  print(result)
+
+   
   # print(json.dumps(comparison,indent=2))
 
   
