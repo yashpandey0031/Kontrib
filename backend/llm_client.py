@@ -1,6 +1,7 @@
 import os
 from groq import Groq
 from dotenv import load_dotenv
+from rag_engine import rag_engine
 
 load_dotenv()
 
@@ -14,6 +15,8 @@ def analyze_with_llm(
     benchmark_messages: list,
     metrics_comparison: dict,
 ) -> str:
+  
+  #retreieve relevant best pracitse 
   
   prompt = f"""
 You are a code contribution analyst. Analyze {username}'s commit style and compare it to {benchmark_username}.
