@@ -17,9 +17,12 @@ def analyze_with_llm(
 ) -> str:
   
   #retreieve relevant best pracitse 
+  context = rag_engine.retrieve("how to write good commit messages conventionnal commits best practise")
+  context_text = "\n\n".join(context)
   
   prompt = f"""
 You are a code contribution analyst. Analyze {username}'s commit style and compare it to {benchmark_username}.
+Format your response in clean bullet points. Keep total response under 200 words.
 
 {username}'s actual commit messages:
 {chr(10).join(f'- {m[:100]}' for m in user_messages[:10])}
@@ -32,12 +35,18 @@ Metrics:
 - Conventional commit rate: {username} = {metrics_comparison['conventional_commit_rate']['your_value']}, {benchmark_username} = {metrics_comparison['conventional_commit_rate']['benchmark_value']}
 - Multiline rate: {username} = {metrics_comparison['multiline_rate']['your_value']}, {benchmark_username} = {metrics_comparison['multiline_rate']['benchmark_value']}
 
+Best practises references:
+{context_text}
+
+
 Based ONLY on {username}'s messages above, provide:
 1. Honest assessment of {username}'s commit style (2-3 sentences)
 2. Three specific improvements with examples from {username}'s ACTUAL messages
 3. One thing {username} is doing well
 
 Be specific. Only reference {username}'s messages in examples, not {benchmark_username}'s.
+Reference the best practices above where relevant.
+
 """
   
   response  =client.chat.completions.create(model = MODEL,messages= [{"role":"user","content":prompt}])
