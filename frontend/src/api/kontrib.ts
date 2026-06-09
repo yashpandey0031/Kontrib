@@ -8,7 +8,7 @@ export const analyzeRepo = async (
   userRepo: string,
   benchmarkRepo: string,
 ): Promise<AnalysisResponse> => {
-  const response = await axios.post(`${BASE_URL}/analyze`, {
+  const response = await axios.post(`${BASE_URL}/api/analyze`, {
     username,
     user_repo: userRepo,
     benchmark_repo: benchmarkRepo,
