@@ -1,4 +1,3 @@
-//define the typescript types for your api response , this tells every componenet what shape the data is
 export interface MetricDetail {
   your_value: number;
   benchmark_value: number;

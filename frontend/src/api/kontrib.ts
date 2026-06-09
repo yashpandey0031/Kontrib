@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AnalysisResponse } from "../types";
+import type { AnalysisResponse } from "../types";
 
 const BASE_URL = "http://localhost:8000";
 
