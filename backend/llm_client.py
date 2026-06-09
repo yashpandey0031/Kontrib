@@ -3,7 +3,10 @@ from groq import Groq
 from dotenv import load_dotenv
 from rag_engine import rag_engine
 
+
 load_dotenv()
+
+
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 MODEL = "llama-3.1-8b-instant"
@@ -15,6 +18,9 @@ def analyze_with_llm(
     benchmark_messages: list,
     metrics_comparison: dict,
 ) -> str:
+  
+  if all(v['rating'] == 'good' for v in metrics_comparison.values()):
+    return "All metrics match or exceed the benchmark. Your commit style aligns well with top contributors in this repo."
   
   #retreieve relevant best pracitse 
   context = rag_engine.retrieve("how to write good commit messages conventionnal commits best practise")
