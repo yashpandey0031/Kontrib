@@ -1,12 +1,15 @@
-import faiss
+
 import numpy as np
 import os
 from pathlib import Path
+os.environ["SENTENCE_TRANSFORMERS_HOME"] = str(Path(__file__).resolve().parent / ".cache" / "models")
+os.environ["HF_HOME"] = str(Path(__file__).resolve().parent / ".cache" / "hf")
+import faiss
 from sentence_transformers import SentenceTransformer
 
 MODEL_NAME = "all-MiniLM-L6-v2"
 KNOWLEDGE_BASE_DIR = Path(__file__).resolve().parent.parent / "knowledge_base"
-os.environ["SENTENCE_TRANSFORMERS_HOME"] = str(Path(__file__).resolve().parent / ".cache" / "models")
+
 
 class RAGEngine:
     def __init__(self):
