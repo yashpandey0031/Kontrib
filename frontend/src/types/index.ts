@@ -20,3 +20,20 @@ export interface AnalysisResponse {
   analysis: Analysis;
   result: string;
 }
+
+export interface PlayerResult {
+  username: string;
+  repo: string;
+  score: number;
+  metrics: Record<string, number>;
+  feedback: string;
+}
+
+export interface BattleResponse {
+  winner: string;
+  loser: string;
+  benchmark_repo: string;
+  player1: PlayerResult;
+  player2: PlayerResult;
+  composite_benchmark: Record<string, number>;
+}

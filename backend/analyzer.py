@@ -73,19 +73,29 @@ def build_composite_benchmark(all_contributor_commits: list[list]) -> dict:
     return composite
 
 
-def score_against_benchmark(user_metrics: dict, benchmark: dict) -> float:
+def score_against_benchmark(user_metrics: dict, benchmark: dict) -> dict:
     if not benchmark:
-        return 0.0
+        return {"total": 0.0, "breakdown": {}}
     
+    breakdown = {}
     scores = []
+    
     for key in benchmark:
         if benchmark[key] == 0:
-            scores.append(100.0 if user_metrics.get(key, 0) == 0 else 50.0)
-            continue
-        ratio = min(user_metrics.get(key, 0) / benchmark[key], 1.0)
-        scores.append(ratio * 100)
+            score = 100.0 if user_metrics.get(key, 0) == 0 else 50.0
+        else:
+            score = min(user_metrics.get(key, 0) / benchmark[key], 1.0) * 100
+        
+        score = round(score, 1)
+        scores.append(score)
+        breakdown[key] = {
+            "your_value": user_metrics.get(key, 0),
+            "benchmark_value": benchmark[key],
+            "score": score
+        }
     
-    return round(sum(scores) / len(scores), 1)
+    total = round(sum(scores) / len(scores), 1)
+    return {"total": total, "breakdown": breakdown}
 
 
 
