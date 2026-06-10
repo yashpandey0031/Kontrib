@@ -21,10 +21,17 @@ export interface AnalysisResponse {
   result: string;
 }
 
+export interface BreakdownItem {
+  your_value: number;
+  benchmark_value: number;
+  score: number;
+}
+
 export interface PlayerResult {
   username: string;
   repo: string;
   score: number;
+  breakdown: Record<string, BreakdownItem>;
   metrics: Record<string, number>;
   feedback: string;
 }

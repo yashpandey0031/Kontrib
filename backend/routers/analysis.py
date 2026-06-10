@@ -97,6 +97,12 @@ async def battle(request: BattleRequest):
         raise HTTPException(status_code=404, detail=f"No commits found for {request.player1_username} in {request.player1_repo}")
     if not p2_commits:
         raise HTTPException(status_code=404, detail=f"No commits found for {request.player2_username} in {request.player2_repo}")
+    
+    if request.player1_username.lower() == request.player2_username.lower() and request.player1_repo == request.player2_repo:
+     raise HTTPException(
+        status_code=400,
+        detail="Player 1 and Player 2 cannot be the same user and repo. Choose different opponents."
+    )
 
     # fetch top 5 contributors of benchmark repo
     top = await get_top_contributors(request.benchmark_repo, limit=5)
@@ -116,8 +122,8 @@ async def battle(request: BattleRequest):
     p1_score = score_against_benchmark(p1_metrics, benchmark)
     p2_score = score_against_benchmark(p2_metrics, benchmark)
 
-    winner = request.player1_username if p1_score >= p2_score else request.player2_username
-    loser = request.player2_username if p1_score >= p2_score else request.player1_username
+    winner = request.player1_username if p1_score["total"] >= p2_score["total"] else request.player2_username
+    loser = request.player2_username if p1_score["total"] >= p2_score["total"] else request.player1_username
 
     # get LLM feedback for both
     p1_messages = extract_commit_messages(p1_commits)
@@ -146,14 +152,16 @@ async def battle(request: BattleRequest):
         "player1": {
             "username": request.player1_username,
             "repo": request.player1_repo,
-            "score": p1_score,
+            "score": p1_score["total"],
+            "breakdown": p1_score["breakdown"],
             "metrics": p1_metrics,
             "feedback": p1_result
         },
         "player2": {
             "username": request.player2_username,
             "repo": request.player2_repo,
-            "score": p2_score,
+            "score": p2_score["total"],
+            "breakdown": p2_score["breakdown"],
             "metrics": p2_metrics,
             "feedback": p2_result
         },

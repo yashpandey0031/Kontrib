@@ -7,6 +7,13 @@ interface Props {
   error: string | null;
 }
 
+const metricLabels: Record<string, string> = {
+  total_commits: "Total Commits",
+  avg_message_length: "Avg Message Length",
+  conventional_commit_rate: "Conventional Commits",
+  multiline_rate: "Multiline Rate",
+};
+
 export default function BattleResults({ data, loading, error }: Props) {
   if (loading) {
     return (
@@ -60,19 +67,21 @@ export default function BattleResults({ data, loading, error }: Props) {
         </p>
       </div>
 
-      {/* Score comparison */}
+      {/* Score cards with breakdown */}
       <div className="grid grid-cols-2 gap-4">
         {[data.player1, data.player2].map((player) => (
           <div
             key={player.username}
-            className="p-4 rounded-lg"
+            className="p-4 rounded-lg flex flex-col gap-3"
             style={{
               backgroundColor: "#1f1f1f",
               border: `1px solid ${player.username === data.winner ? "#22c55e" : "#2e2e2e"}`,
             }}
           >
-            <p className="text-xs text-neutral-400 mb-1">{player.username}</p>
-            <p className="text-xs text-neutral-500 mb-3">{player.repo}</p>
+            <div>
+              <p className="text-xs text-neutral-400">{player.username}</p>
+              <p className="text-xs text-neutral-500">{player.repo}</p>
+            </div>
             <p
               className="text-4xl font-bold"
               style={{
@@ -80,8 +89,40 @@ export default function BattleResults({ data, loading, error }: Props) {
               }}
             >
               {player.score}
+              <span className="text-sm text-neutral-500 ml-1">/ 100</span>
             </p>
-            <p className="text-xs text-neutral-500 mt-1">/ 100</p>
+
+            {/* Breakdown */}
+            <div
+              className="flex flex-col gap-2 pt-3"
+              style={{ borderTop: "1px solid #2e2e2e" }}
+            >
+              {Object.entries(player.breakdown).map(([key, item]) => (
+                <div key={key} className="flex items-center justify-between">
+                  <span className="text-xs text-neutral-500">
+                    {metricLabels[key] || key}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-neutral-400">
+                      {item.your_value} / {item.benchmark_value}
+                    </span>
+                    <span
+                      className="text-xs font-medium"
+                      style={{
+                        color:
+                          item.score >= 80
+                            ? "#22c55e"
+                            : item.score >= 50
+                              ? "#f59e0b"
+                              : "#ef4444",
+                      }}
+                    >
+                      {item.score}pts
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
