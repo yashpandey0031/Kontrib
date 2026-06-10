@@ -56,6 +56,37 @@ def extract_commit_messages(commits: list) -> list:
 def extract_pr_descriptions(prs: list) -> list:
     return [pr["body"] for pr in prs if pr["body"]]
 
+def build_composite_benchmark(all_contributor_commits: list[list]) -> dict:
+    # analyze each contributor's commits
+    all_metrics = [analyze_commits(commits) for commits in all_contributor_commits if commits]
+    
+    if not all_metrics:
+        return {}
+    
+    # average each metric across all contributors
+    keys = all_metrics[0].keys()
+    composite = {}
+    for key in keys:
+        values = [m[key] for m in all_metrics]
+        composite[key] = round(sum(values) / len(values), 2)
+    
+    return composite
+
+
+def score_against_benchmark(user_metrics: dict, benchmark: dict) -> float:
+    if not benchmark:
+        return 0.0
+    
+    scores = []
+    for key in benchmark:
+        if benchmark[key] == 0:
+            scores.append(100.0 if user_metrics.get(key, 0) == 0 else 50.0)
+            continue
+        ratio = min(user_metrics.get(key, 0) / benchmark[key], 1.0)
+        scores.append(ratio * 100)
+    
+    return round(sum(scores) / len(scores), 1)
+
 
 
   
