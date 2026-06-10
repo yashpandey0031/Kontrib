@@ -1,6 +1,10 @@
-from rag_engine import rag_engine
+import httpx
+import asyncio
 
-results = rag_engine.retrieve("how to write good commit messages")
-for r in results:
-    print(r)
-    print("---")
+async def check_rate_limit():
+    headers = {"Authorization": f"Bearer YOUR_TOKEN"}
+    async with httpx.AsyncClient() as client:
+        r = await client.get("https://api.github.com/rate_limit", headers=headers)
+        print(r.json())
+
+asyncio.run(check_rate_limit())

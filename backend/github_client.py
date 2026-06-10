@@ -23,6 +23,7 @@ async def get_user(username: str) -> dict:
     return response.json()
   
 async def get_user_commits(username: str, repo: str) -> list:
+ 
   async with httpx.AsyncClient(timeout=30.0,follow_redirects=True) as client:
     response = await client.get(
       f"{BASE_URL}/repos/{repo}/commits",
@@ -36,6 +37,7 @@ async def get_user_commits(username: str, repo: str) -> list:
     return response.json()
   
 async def get_top_contributors(repo:  str, limit: int = 5)-> list:
+  
   async with httpx.AsyncClient(timeout=30.0,follow_redirects=True) as client:
     response = await client.get(
       f"{BASE_URL}/repos/{repo}/contributors",
