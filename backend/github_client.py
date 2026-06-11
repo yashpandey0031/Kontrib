@@ -10,20 +10,22 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 BASE_URL = "https://api.github.com"
 
 headers = {
-  "Authorization":f"Bearer{GITHUB_TOKEN}",
+  "Authorization":f"Bearer {GITHUB_TOKEN}",
   "Accept" : "application/vnd.github+json"
 }
 
 
 
 async def get_user(username: str) -> dict:
+  username = username.strip()
   async with httpx.AsyncClient(timeout=30.0,follow_redirects=True) as client:
     response = await client.get(f"{BASE_URL}/users/{username}", headers=headers)
     response.raise_for_status()
     return response.json()
   
 async def get_user_commits(username: str, repo: str) -> list:
- 
+  username = username.strip()  # add
+  repo = repo.strip()
   async with httpx.AsyncClient(timeout=30.0,follow_redirects=True) as client:
     response = await client.get(
       f"{BASE_URL}/repos/{repo}/commits",
@@ -37,7 +39,7 @@ async def get_user_commits(username: str, repo: str) -> list:
     return response.json()
   
 async def get_top_contributors(repo:  str, limit: int = 5)-> list:
-  
+  repo = repo.strip()
   async with httpx.AsyncClient(timeout=30.0,follow_redirects=True) as client:
     response = await client.get(
       f"{BASE_URL}/repos/{repo}/contributors",
@@ -51,6 +53,8 @@ async def get_top_contributors(repo:  str, limit: int = 5)-> list:
     return response.json()
   
 async def get_user_prs(username: str, repo: str) -> list:
+    username = username.strip()  # add
+    repo = repo.strip()  
     async with httpx.AsyncClient(timeout=30.0) as client:
         response = await client.get(
             f"{BASE_URL}/repos/{repo}/pulls",
