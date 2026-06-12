@@ -146,4 +146,14 @@ Groq LLM — generate grounded feedback
 Results — metrics + AI analysis
 ```
 
+## knowledge base for RAG sources
+
+- opensource.guide/how-to-contribute
+- kernel.org/doc/html/latest/process/submitting-patches.html
+- docs.github.com/en/communitiessetting-up-your-project-for-healthy-contributions
+- conventionalcommits.org
+
+## potential future features / work needed to be done
+
+
 ---
