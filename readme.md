@@ -6,7 +6,7 @@
 
 Compare your GitHub commit style against top open source contributors. Get AI-powered feedback on what separates your commits from the best in the world.
 
-![Kontrib Demo](.assets\Screenshot 2026-06-12 221240.png)
+![Kontrib Demo](assets/Screenshot 2026-06-12 221240.png)
 
 ---
 
@@ -22,7 +22,7 @@ Compare your GitHub commit style against top open source contributors. Get AI-po
 
 | Analyze Mode                                         | Battle Mode                                         |
 | ---------------------------------------------------- | --------------------------------------------------- |
-| ![Analyze](.assets\Screenshot 2026-06-12 231809.png) | ![Battle](.assets\Screenshot 2026-06-12 232522.png) |
+| ![Analyze](assets/Screenshot 2026-06-12 221240.png)  | ![Battle](.assets/Screenshot 2026-06-12 232522.png) |
 
 ---
 
