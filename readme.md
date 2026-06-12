@@ -155,5 +155,14 @@ Results — metrics + AI analysis
 
 ## potential future features / work needed to be done
 
+- [ ] MCP server
+- [ ] more signals for improving accuracy
+- [ ] add github auth
+- [ ] add a LLM message , LLM feedback not avaiable , limit reached
+- [ ] make a loader for intial model loading
+- [ ] add messages about each metric
+- [x] update the readme
+- [x] add spport for other ai models
+- [ ] autocomplete or search
 
 ---
