@@ -19,9 +19,9 @@ Compare your GitHub commit style against top open source contributors. Get AI-po
 
 ## Screenshots
 
-| Analyze Mode                                        | Battle Mode                         |
-| --------------------------------------------------- | ----------------------------------- |
-| ![Analyze](assets\Screenshot 2026-06-12 231809.png) | ![Battle](./screenshots/battle.png) |
+| Analyze Mode                                        | Battle Mode                                        |
+| --------------------------------------------------- | -------------------------------------------------- |
+| ![Analyze](assets\Screenshot 2026-06-12 231809.png) | ![Battle](assets\Screenshot 2026-06-12 232522.png) |
 
 ---
 
