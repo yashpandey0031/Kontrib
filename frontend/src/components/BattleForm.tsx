@@ -93,7 +93,7 @@ export default function BattleForm({ onSubmit, loading }: Props) {
             </label>
             <input
               style={inputStyle}
-              placeholder="e.g. torvalds"
+              placeholder="e.g. jewels86"
               value={p2Username}
               onChange={(e) => setP2Username(e.target.value)}
             />
@@ -104,7 +104,7 @@ export default function BattleForm({ onSubmit, loading }: Props) {
             </label>
             <input
               style={inputStyle}
-              placeholder="e.g. torvalds/linux"
+              placeholder="e.g. jewels86/Lazulite"
               value={p2Repo}
               onChange={(e) => setP2Repo(e.target.value)}
             />

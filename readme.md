@@ -5,7 +5,7 @@
 
 Compare your GitHub commit style against top open source contributors. Get AI-powered feedback on what separates your commits from the best in the world.
 
-![Kontrib Demo](./screenshots/demo.png)
+![Kontrib Demo](assets\Screenshot 2026-06-12 221240.png)
 
 ---
 
@@ -19,9 +19,9 @@ Compare your GitHub commit style against top open source contributors. Get AI-po
 
 ## Screenshots
 
-| Analyze Mode                          | Battle Mode                         |
-| ------------------------------------- | ----------------------------------- |
-| ![Analyze](./screenshots/analyze.png) | ![Battle](./screenshots/battle.png) |
+| Analyze Mode                                        | Battle Mode                         |
+| --------------------------------------------------- | ----------------------------------- |
+| ![Analyze](assets\Screenshot 2026-06-12 231809.png) | ![Battle](./screenshots/battle.png) |
 
 ---
 
@@ -55,7 +55,7 @@ Kontrib/
 │   ├── rag_engine.py            # FAISS index over knowledge base
 │   ├── routers/
 │   │   └── analysis.py          # /analyze and /battle endpoints
-│   └── .env                     # API keys 
+│   └── .env                     # API keys
 ├── frontend/
 │   └── src/
 │       ├── App.tsx
@@ -146,4 +146,3 @@ Results — metrics + AI analysis
 ```
 
 ---
-
