@@ -130,22 +130,6 @@ Kontrib uses Groq by default (free). To swap providers, update `backend/.env` an
 
 ---
 
-## How it works
-
-```
-GitHub username + repo
-        ↓
-GitHub API — fetch commits
-        ↓
-Signal extraction — message length, conventional rate, multiline rate
-        ↓
-FAISS retrieval — pull relevant best practice chunks
-        ↓
-Groq LLM — generate grounded feedback
-        ↓
-Results — metrics + AI analysis
-```
-
 ## knowledge base for RAG sources
 
 - opensource.guide/how-to-contribute
