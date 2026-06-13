@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { AnalysisResponse, BattleResponse } from "../types";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "https://kontrib-teyk.onrender.com";
 
 export const analyzeRepo = async (
   username: string,
