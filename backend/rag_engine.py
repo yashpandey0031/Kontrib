@@ -1,36 +1,27 @@
 import numpy as np
-import os
 import faiss
+import json
 from pathlib import Path
-from fastembed import TextEmbedding
 
-os.environ["HF_HOME"] = str(Path(__file__).resolve().parent / ".cache" / "hf")
-
-KNOWLEDGE_BASE_DIR = Path(__file__).resolve().parent.parent / "knowledge_base"
-
+INDEX_PATH = Path(__file__).resolve().parent / "knowledge_index.faiss"
+CHUNKS_PATH = Path(__file__).resolve().parent / "knowledge_chunks.json"
 
 class RAGEngine:
     def __init__(self):
-        self.model = TextEmbedding("BAAI/bge-small-en-v1.5")
-        self.chunks = []
-        self.index = None
-        self._load_knowledge_base()
-
-    def _load_knowledge_base(self):
-        for file in KNOWLEDGE_BASE_DIR.glob("*.md"):
-            text = file.read_text(encoding="utf-8")
-            paragraphs = [p.strip() for p in text.split("\n\n") if len(p.strip()) > 50]
-            self.chunks.extend(paragraphs)
-
-        embeddings = np.array(list(self.model.embed(self.chunks)), dtype=np.float32)
-        dimension = embeddings.shape[1]
-        self.index = faiss.IndexFlatIP(dimension)
-        self.index.add(embeddings)
+        self.index = faiss.read_index(str(INDEX_PATH))
+        with open(CHUNKS_PATH) as f:
+            self.chunks = json.load(f)
 
     def retrieve(self, query: str, top_k: int = 3) -> list[str]:
-        query_vec = np.array(list(self.model.embed([query])), dtype=np.float32)
-        scores, indices = self.index.search(query_vec, k=top_k)
-        return [self.chunks[i] for i in indices[0] if i < len(self.chunks)]
-
+        # use TF-IDF style keyword matching instead of embeddings
+        query_words = set(query.lower().split())
+        scores = []
+        for chunk in self.chunks:
+            chunk_words = set(chunk.lower().split())
+            score = len(query_words & chunk_words)
+            scores.append(score)
+        
+        top_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:top_k]
+        return [self.chunks[i] for i in top_indices]
 
 rag_engine = RAGEngine()
