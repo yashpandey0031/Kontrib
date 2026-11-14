@@ -27,7 +27,7 @@ def analyze_with_llm(
   context_text = "\n\n".join(context)
   
   prompt = f"""
-You are a code contribution analyst. Analyze {username}'s commit style and compare it to {benchmark_username}.
+You are a senior code contribution analyst. Analyze {username}'s commit style and compare it to {benchmark_username}.
 Format your response in clean bullet points. Keep total response under 200 words.
 
 {username}'s actual commit messages:
