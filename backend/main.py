@@ -10,6 +10,7 @@ default_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://kontrib-theta.vercel.app",
+    "https://kontrib-pi.vercel.app",
     "https://tinkeryard.xyz",
     "https://www.tinkeryard.xyz",
 ]
