@@ -1,3 +1,7 @@
+from collections.abc import Awaitable
+from typing import TypeVar
+
+import httpx
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from github_client import get_user,get_top_contributors,get_user_commits
@@ -8,6 +12,19 @@ from llm_client import analyze_with_llm
 #pydantic fetches the incoming request and automatically validates incoming JSON 
 
 router = APIRouter()
+T = TypeVar("T")
+
+
+async def fetch_repo_data(repo: str, request: Awaitable[T]) -> T:
+    try:
+        return await request
+    except httpx.HTTPStatusError as exc:
+        if exc.response.status_code == 404:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Repository '{repo}' was not found. Check the owner/repository spelling and make sure it is public.",
+            ) from exc
+        raise
 
 class AnalysisRequest(BaseModel):
   username: str
@@ -20,11 +37,17 @@ async def analyze(request: AnalysisRequest):
     if not user:
         raise HTTPException(status_code=404, detail="Github user not found")
 
-    user_commits = await get_user_commits(request.username, request.user_repo)
+    user_commits = await fetch_repo_data(
+        request.user_repo,
+        get_user_commits(request.username, request.user_repo),
+    )
     if not user_commits:
         raise HTTPException(status_code=404, detail=f"No commits found for {request.username} in {request.user_repo}.")
 
-    top = await get_top_contributors(request.benchmark_repo, limit=1)
+    top = await fetch_repo_data(
+        request.benchmark_repo,
+        get_top_contributors(request.benchmark_repo, limit=1),
+    )
     if not top:
         raise HTTPException(status_code=404, detail="Could not fetch contributors for this repo")
 
@@ -90,8 +113,14 @@ async def battle(request: BattleRequest):
         raise HTTPException(status_code=400, detail="Invalid benchmark repo. Choose from the provided list.")
 
     # fetch both players' commits
-    p1_commits = await get_user_commits(request.player1_username, request.player1_repo)
-    p2_commits = await get_user_commits(request.player2_username, request.player2_repo)
+    p1_commits = await fetch_repo_data(
+        request.player1_repo,
+        get_user_commits(request.player1_username, request.player1_repo),
+    )
+    p2_commits = await fetch_repo_data(
+        request.player2_repo,
+        get_user_commits(request.player2_username, request.player2_repo),
+    )
 
     if not p1_commits:
         raise HTTPException(status_code=404, detail=f"No commits found for {request.player1_username} in {request.player1_repo}")
@@ -105,10 +134,16 @@ async def battle(request: BattleRequest):
     )
 
     # fetch top 5 contributors of benchmark repo
-    top = await get_top_contributors(request.benchmark_repo, limit=5)
+    top = await fetch_repo_data(
+        request.benchmark_repo,
+        get_top_contributors(request.benchmark_repo, limit=5),
+    )
     contributor_commits = []
     for contributor in top:
-        commits = await get_user_commits(contributor['login'], request.benchmark_repo)
+        commits = await fetch_repo_data(
+            request.benchmark_repo,
+            get_user_commits(contributor['login'], request.benchmark_repo),
+        )
         contributor_commits.append(commits)
 
     # build composite benchmark

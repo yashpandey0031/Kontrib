@@ -1,0 +1,22 @@
+[
+  "how long should a commit subject line be",
+  "conventional commits prefixes feat fix docs",
+  "writing a commit body that explains why a change was made",
+  "use the imperative mood in commit messages",
+  "vague commit messages like fix stuff or update",
+  "separate the subject from the body with a blank line",
+  "wrapping the commit message body at 72 characters",
+  "how to mark breaking changes in conventional commits",
+  "using scopes in conventional commit types",
+  "making small atomic commits",
+  "linking commits to issues",
+  "how to write a good pull request description",
+  "signing off commits for kernel contributions",
+  "how maintainers review patches",
+  "making a first contribution to an open source project",
+  "what makes a good changelog from commits",
+  "why commit history matters to future maintainers",
+  "avoid mixing unrelated changes in one commit",
+  "describing the cause when committing a bug fix",
+  "following a project's contribution guidelines"
+]

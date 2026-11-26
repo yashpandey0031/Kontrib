@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import Navbar from "./components/Navbar";
 import AnalysisForm from "./components/AnalysisForm";
@@ -8,6 +9,13 @@ import { analyzeRepo, battleRepos } from "./api/kontrib";
 import type { AnalysisResponse, BattleResponse } from "./types";
 
 type Mode = "analyze" | "battle";
+
+function getErrorMessage(err: unknown): string {
+  if (axios.isAxiosError<{ detail?: string }>(err)) {
+    return err.response?.data?.detail ?? err.message;
+  }
+  return err instanceof Error ? err.message : "Something went wrong.";
+}
 
 export default function App() {
   const [mode, setMode] = useState<Mode>("analyze");
@@ -34,9 +42,7 @@ export default function App() {
       const result = await analyzeRepo(username, userRepo, benchmarkRepo);
       setAnalyzeData(result);
     } catch (err: unknown) {
-      setAnalyzeError(
-        err instanceof Error ? err.message : "Something went wrong.",
-      );
+      setAnalyzeError(getErrorMessage(err));
     } finally {
       setAnalyzeLoading(false);
     }
@@ -62,9 +68,7 @@ export default function App() {
       );
       setBattleData(result);
     } catch (err: unknown) {
-      setBattleError(
-        err instanceof Error ? err.message : "Something went wrong.",
-      );
+      setBattleError(getErrorMessage(err));
     } finally {
       setBattleLoading(false);
     }
