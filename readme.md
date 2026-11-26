@@ -137,6 +137,10 @@ Kontrib uses Groq by default (free). To swap providers, update `backend/.env` an
 - docs.github.com/en/communitiessetting-up-your-project-for-healthy-contributions
 - conventionalcommits.org
 
+## Currently available at 
+- https://kontrib-pi.vercel.app/
+- tinkeryard.xyz/kontrib
+
 ## potential future features / work needed to be done
 
 - [ ] MCP server
